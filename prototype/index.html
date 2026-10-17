@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex, nofollow">
+<title>Медозор — макет</title>
+<style>
+  :root {
+    --bg: #f3f6f8;
+    --card: #ffffff;
+    --text: #17242e;
+    --muted: #5d6d79;
+    --line: #dde4ea;
+    --accent: #0f7c8c;
+    --accent-ink: #ffffff;
+    --accent-soft: #e2f3f5;
+    --ok: #1d8a4e;
+    --ok-soft: #e4f5ea;
+    --bad: #c23b3b;
+    --bad-soft: #fbe9e9;
+    --warn: #b7791f;
+    --warn-soft: #fdf3e1;
+    --bubble-me: #0f7c8c;
+    --bubble-me-ink: #ffffff;
+    --bubble-pt: #eef2f5;
+    --shadow: 0 1px 2px rgba(16, 36, 48, .06), 0 4px 16px rgba(16, 36, 48, .05);
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1519;
+      --card: #172128;
+      --text: #e3eaef;
+      --muted: #93a3ae;
+      --line: #2a3740;
+      --accent: #3bb3c3;
+      --accent-ink: #062228;
+      --accent-soft: #15333a;
+      --ok: #4cc27f;
+      --ok-soft: #173426;
+      --bad: #ef7a7a;
+      --bad-soft: #3a1d1f;
+      --warn: #e2a84b;
+      --warn-soft: #3a2d15;
+      --bubble-me: #23808d;
+      --bubble-me-ink: #ffffff;
+      --bubble-pt: #22303a;
+      --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
+  }
+  button, input, textarea { font: inherit; color: inherit; }
+  .app { max-width: 430px; margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; }
+
+  /* Шапка */
+  .top { position: sticky; top: 0; z-index: 10; background: var(--bg); padding: 10px 16px 0; }
+  .brand { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .brand-name { font-weight: 700; letter-spacing: .2px; display: flex; align-items: center; gap: 8px; }
+  .logo { width: 26px; height: 26px; border-radius: 8px; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-size: 15px; font-weight: 800; }
+  .station-tag { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 12px 0 0; padding: 0 0 10px; list-style: none; border-bottom: 1px solid var(--line); }
+  .step { all: unset; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; font-size: 11px; color: var(--muted); text-align: center; }
+  .step:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  .step .dot { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; font-size: 12px; font-weight: 700; background: var(--card); }
+  .step.done .dot { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .step.active .dot { border-color: var(--accent); color: var(--accent); }
+  .step.active { color: var(--text); font-weight: 600; }
+  .step span.lbl { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  main { flex: 1; padding: 14px 16px 24px; }
+  .screen { display: none; }
+  .screen.on { display: block; animation: fade .18s ease-out; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  h1 { font-size: 22px; line-height: 1.25; margin: 4px 0 4px; }
+  h2 { font-size: 17px; margin: 0 0 8px; }
+  h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin: 18px 0 8px; font-weight: 700; }
+  p { margin: 0 0 10px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  .tiny { font-size: 11.5px; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); margin-bottom: 12px; }
+  .row { display: flex; align-items: center; gap: 10px; }
+  .spacer { flex: 1; }
+
+  .btn { appearance: none; border: 0; border-radius: 12px; padding: 13px 16px; font-weight: 650; cursor: pointer; background: var(--accent); color: var(--accent-ink); width: 100%; font-size: 16px; }
+  .btn:active { transform: translateY(1px); }
+  .btn.ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+  .btn.sm { width: auto; padding: 8px 12px; font-size: 14px; border-radius: 10px; }
+  .btn.danger { background: var(--bad); color: #fff; }
+  .btn:disabled { opacity: .45; cursor: default; }
+  .linkbtn { all: unset; cursor: pointer; color: var(--accent); font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
+  .linkbtn:focus-visible { outline: 2px solid var(--accent); }
+  .btns { display: grid; gap: 10px; margin-top: 16px; }
+
+  /* 1. Инструкция */
+  .brief li { margin: 0 0 8px; }
+  .brief ul { padding-left: 20px; margin: 6px 0 0; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+  .fact { background: var(--accent-soft); border-radius: 12px; padding: 10px 8px; text-align: center; }
+  .fact b { display: block; font-size: 18px; }
+  .fact span { font-size: 12px; color: var(--muted); }
+  .note { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 10px 12px; border-radius: 0 10px 10px 0; font-size: 14px; }
+
+  /* 2. Приём */
+  .consult { display: flex; flex-direction: column; height: calc(100dvh - 128px); min-height: 460px; }
+  .timerbar { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .timer { font-variant-numeric: tabular-nums; font-size: 26px; font-weight: 750; letter-spacing: .5px; }
+  .timer.warn { color: var(--warn); }
+  .timer.over { color: var(--bad); }
+  .iconbtn { appearance: none; border: 1px solid var(--line); background: var(--card); border-radius: 50%; width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer; flex: none; }
+  .iconbtn svg { width: 18px; height: 18px; }
+  .patient-head { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 700; flex: none; }
+  .chatbox { flex: 1; display: flex; flex-direction: column; min-height: 0; padding: 0; overflow: hidden; margin-bottom: 0; }
+  .log { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .empty { margin: auto; text-align: center; color: var(--muted); font-size: 14px; padding: 20px; }
+  .msg { max-width: 84%; padding: 9px 12px; border-radius: 16px; font-size: 15px; overflow-wrap: anywhere; }
+  .msg.me { align-self: flex-end; background: var(--bubble-me); color: var(--bubble-me-ink); border-bottom-right-radius: 5px; }
+  .msg.pt { align-self: flex-start; background: var(--bubble-pt); border-bottom-left-radius: 5px; }
+  .msg.typing { color: var(--muted); font-style: italic; }
+  .chips { display: flex; gap: 6px; overflow-x: auto; padding: 8px 12px 0; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 11px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+  .composer { display: flex; align-items: flex-end; gap: 8px; padding: 10px 12px 12px; }
+  .field { flex: 1; display: flex; align-items: flex-end; border: 1px solid var(--line); border-radius: 18px; background: var(--bg); padding: 4px 4px 4px 12px; min-width: 0; }
+  .field textarea { flex: 1; border: 0; background: transparent; resize: none; outline: none; padding: 7px 0; max-height: 96px; min-width: 0; font-size: 15px; }
+  .mic { appearance: none; border: 0; background: transparent; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; color: var(--muted); flex: none; }
+  .mic.rec { background: var(--bad-soft); color: var(--bad); }
+  .send { appearance: none; border: 0; width: 42px; height: 42px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; cursor: pointer; flex: none; }
+  .send svg, .mic svg { width: 20px; height: 20px; }
+  .consult-foot { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+  .consult-foot .btn { flex: 1; }
+
+  /* 3. Чек-лист */
+  .scorehead { display: flex; align-items: center; gap: 14px; }
+  .ring { --p: 0; width: 72px; height: 72px; border-radius: 50%; flex: none; display: grid; place-items: center;
+          background: conic-gradient(var(--accent) calc(var(--p) * 1%), var(--line) 0); }
+  .ring > div { width: 58px; height: 58px; border-radius: 50%; background: var(--card); display: grid; place-items: center; font-weight: 750; font-size: 16px; font-variant-numeric: tabular-nums; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; background: var(--ok-soft); color: var(--ok); border-radius: 999px; padding: 4px 10px; font-size: 12.5px; font-weight: 650; }
+  .passport { display: block; font-size: 12px; color: var(--accent); margin-top: 6px; text-underline-offset: 3px; overflow-wrap: anywhere; }
+  .sec-n { color: var(--muted); font-weight: 650; margin-right: 2px; }
+  .mark.na { background: var(--line); color: var(--muted); }
+  .item.na .item-t { color: var(--muted); }
+  .tag { display: inline-block; font-size: 11px; font-weight: 650; border-radius: 6px; padding: 1px 6px; margin-left: 4px; vertical-align: 1px; background: var(--accent-soft); color: var(--accent); }
+  .tag.na { background: var(--line); color: var(--muted); }
+  .inote { margin-top: 4px; font-size: 13px; color: var(--muted); }
+  .quote.bad { border-left-color: var(--bad); }
+  .msg .who { display: block; font-size: 11px; font-weight: 700; font-style: normal; opacity: .8; margin-bottom: 1px; }
+  .msg.ex { align-self: flex-end; background: var(--warn-soft); color: var(--text); border: 1px solid color-mix(in srgb, var(--warn) 45%, transparent); border-bottom-right-radius: 5px; }
+  .msg.apk { align-self: center; max-width: 92%; background: transparent; border: 1px dashed var(--line); color: var(--muted); font-size: 14px; text-align: center; }
+  .to { display: flex; gap: 6px; padding: 8px 12px 0; }
+  .to-b { appearance: none; border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 999px; padding: 5px 12px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .to-b.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .to-b[data-to="ex"].on { background: var(--warn); border-color: var(--warn); color: #fff; }
+  .concl label { display: block; font-size: 14px; font-weight: 600; margin: 10px 0 0; }
+  .concl input, .concl textarea { display: block; width: 100%; margin-top: 4px; border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; background: var(--bg); font-size: 15px; font-weight: 400; outline: none; }
+  .concl textarea { min-height: 70px; resize: vertical; }
+  .concl input:focus, .concl textarea:focus { border-color: var(--accent); }
+  .hyp { margin: 4px 0 0; padding-left: 22px; }
+  .hyp li { margin-bottom: 6px; }
+  .hyp input { margin-top: 0; }
+  .sec { padding: 0; overflow: hidden; }
+  .sec-h { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; font-weight: 650; border-bottom: 1px solid var(--line); gap: 8px; }
+  .sec-h .cnt { white-space: nowrap; font-size: 13px; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .item { display: flex; gap: 10px; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: 0; }
+  .mark { width: 22px; height: 22px; border-radius: 50%; flex: none; display: grid; place-items: center; font-size: 13px; font-weight: 800; margin-top: 1px; }
+  .mark.ok { background: var(--ok); color: #fff; }
+  .mark.no { background: var(--bad-soft); color: var(--bad); border: 1.5px solid var(--bad); }
+  .item-t { font-size: 15px; }
+  .item.no .item-t { color: var(--bad); }
+  .quote { margin-top: 4px; font-size: 13px; color: var(--muted); font-style: italic; border-left: 2px solid var(--ok); padding-left: 8px; overflow-wrap: anywhere; }
+  .flag { display: inline-block; font-size: 10.5px; font-weight: 700; color: var(--bad); border: 1px solid var(--bad); border-radius: 5px; padding: 0 5px; margin-left: 4px; vertical-align: 1px; font-style: normal; }
+  details.transcript summary { cursor: pointer; font-weight: 650; padding: 2px 0; }
+  .tline { font-size: 14px; padding: 4px 0; border-bottom: 1px dashed var(--line); }
+  .tline b { color: var(--muted); font-weight: 600; }
+  .demo-note { font-size: 13px; background: var(--warn-soft); color: var(--text); border-radius: 10px; padding: 9px 12px; margin-bottom: 12px; }
+
+  /* 4. Вопросы */
+  .q { }
+  .q-n { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .5px; }
+  .q-t { font-weight: 650; margin: 2px 0 10px; }
+  .q textarea { width: 100%; min-height: 76px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: var(--bg); resize: vertical; font-size: 15px; outline: none; }
+  .q textarea:focus { border-color: var(--accent); }
+  .q-actions { display: flex; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+  .ref { margin-top: 12px; background: var(--accent-soft); border-radius: 12px; padding: 11px 12px; font-size: 14px; display: none; }
+  .ref.on { display: block; }
+  .ref ul { margin: 6px 0 0; padding-left: 18px; }
+  .ref li { margin-bottom: 3px; }
+  .kw { border-radius: 5px; padding: 0 3px; }
+  .kw.hit { background: var(--ok-soft); color: var(--ok); font-weight: 650; }
+  .hitline { margin-top: 8px; font-size: 13px; color: var(--muted); }
+
+  /* 5. Разбор */
+  .verdict { text-align: center; padding: 18px 14px; }
+  .verdict .pct { font-size: 46px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+  .pill { display: inline-block; border-radius: 999px; padding: 5px 14px; font-weight: 700; font-size: 14px; margin-top: 10px; }
+  .pill.pass { background: var(--ok-soft); color: var(--ok); }
+  .pill.fail { background: var(--bad-soft); color: var(--bad); }
+  .habit { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .habit .card { margin: 0; text-align: center; padding: 12px 8px; }
+  .habit .big { font-size: 30px; line-height: 1.1; }
+  .habit b { display: block; font-size: 15px; margin-top: 4px; }
+  .week { display: flex; justify-content: center; gap: 4px; margin-top: 6px; }
+  .week i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); display: block; }
+  .week i.on { background: var(--warn); }
+  .list { margin: 0; padding: 0; list-style: none; }
+  .list li { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px; display: flex; gap: 8px; }
+  .list li:last-child { border-bottom: 0; }
+  .list .ic { flex: none; width: 20px; text-align: center; }
+  .why { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .redflag { background: var(--bad-soft); border: 1px solid color-mix(in srgb, var(--bad) 40%, transparent); }
+  .dx { background: var(--accent-soft); border-radius: 12px; padding: 10px 12px; font-size: 14px; }
+  .src a { color: var(--accent); text-underline-offset: 3px; }
+  .tomorrow { display: none; }
+  .tomorrow.on { display: block; animation: fade .18s ease-out; }
+
+  /* 0. Главная «Сегодня» */
+  .homebtn { all: unset; cursor: pointer; display: flex; align-items: center; gap: 8px; border-radius: 8px; }
+  .homebtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .hello { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+  .hello h1 { margin: 0; }
+  .countdown { font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .streak { display: flex; align-items: center; gap: 12px; }
+  .streak .fire { font-size: 38px; line-height: 1; filter: grayscale(1); opacity: .45; transition: .3s; }
+  .streak.lit .fire { filter: none; opacity: 1; }
+  .streak b { font-size: 20px; display: block; line-height: 1.2; }
+  .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 12px; text-align: center; }
+  .days div { font-size: 11px; color: var(--muted); }
+  .days i { display: grid; place-items: center; width: 28px; height: 28px; margin: 3px auto 0; border-radius: 50%; background: var(--line); font-style: normal; font-size: 13px; }
+  .days i.on { background: var(--warn); color: #fff; }
+  .days i.today { box-shadow: 0 0 0 2px var(--warn) inset; background: transparent; color: var(--warn); }
+  .days i.today.on { background: var(--warn); color: #fff; }
+  .task { border: 2px solid var(--accent); }
+  .task.done { border-color: var(--ok); }
+  .task .q-n { display: flex; justify-content: space-between; gap: 8px; }
+  .reward { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 12px; }
+  .reward span { font-size: 12.5px; background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 3px 9px; font-weight: 600; }
+  .task.done .reward span { background: var(--ok-soft); color: var(--ok); }
+  .ready-top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+  .bar { height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; margin-top: 5px; }
+  .bar > i { display: block; height: 100%; border-radius: 999px; background: var(--accent); transition: width .5s; }
+  .stage { margin-top: 12px; }
+  .stage .row { justify-content: space-between; font-size: 14px; }
+  .stage .row b { font-variant-numeric: tabular-nums; }
+  .switch { position: relative; width: 46px; height: 28px; flex: none; }
+  .switch input { opacity: 0; width: 100%; height: 100%; margin: 0; position: absolute; cursor: pointer; z-index: 1; }
+  .switch span { position: absolute; inset: 0; border-radius: 999px; background: var(--line); transition: .2s; }
+  .switch span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: .2s; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .switch input:checked + span { background: var(--accent); }
+  .switch input:checked + span::after { transform: translateX(18px); }
+  .switch input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .remind-time { border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; background: var(--bg); font-size: 15px; }
+  .nudge { margin-top: 10px; display: flex; gap: 10px; align-items: flex-start; background: var(--bg); border-radius: 12px; padding: 10px 12px; font-size: 14px; }
+  .nudge .logo { flex: none; }
+  .invite-link { display: flex; gap: 8px; margin-top: 10px; }
+  .invite-link input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; background: var(--bg); font-size: 14px; color: var(--muted); }
+  .friends { display: flex; gap: 6px; margin-top: 10px; align-items: center; font-size: 13px; color: var(--muted); }
+  .friends i { width: 28px; height: 28px; border-radius: 50%; border: 1.5px dashed var(--line); display: grid; place-items: center; font-style: normal; }
+  .friends i.on { border: 0; background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 12px; font-size: 14px; opacity: 0; pointer-events: none; transition: .2s; max-width: calc(100vw - 32px); z-index: 50; }
+  .toast.on { opacity: 1; transform: translateX(-50%); }
+
+  @media (max-width: 380px) {
+    .step { font-size: 10px; letter-spacing: -.2px; }
+    .station-tag { font-size: 12px; }
+  }
+  @media (min-width: 600px) {
+    body { padding: 24px 0; }
+    .app { background: var(--bg); border: 1px solid var(--line); border-radius: 24px; min-height: calc(100dvh - 48px); overflow: hidden; }
+    .top { border-radius: 24px 24px 0 0; }
+    .consult { height: calc(100dvh - 180px); }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <button class="homebtn brand-name" id="home-btn" type="button" aria-label="На главную"><div class="logo" aria-hidden="true">М</div>Медозор</button>
+      <div class="station-tag" id="station-tag">Станция: Сбор жалоб и анамнеза</div>
+    </div>
+    <nav class="steps" id="steps" aria-label="Шаги станции"></nav>
+  </header>
+
+  <main>
+    <!-- ЭКРАН 0. Сегодня (главная). Идея из интервью: маленькое задание на день, серия, медаль,
+         напоминание «как сова Duolingo», прогресс до экзамена, приглашение однокурсника. -->
+    <section class="screen" id="s-home" aria-labelledby="h-home">
+      <div class="hello">
+        <h1 id="h-home">Сегодня</h1>
+        <div class="countdown" id="countdown">до аккредитации — …</div>
+      </div>
+
+      <div class="card streak" id="streak-card">
+        <div class="fire" aria-hidden="true">🔥</div>
+        <div>
+          <b id="streak-n">3 дня подряд</b>
+          <span class="small muted" id="streak-s">Сегодня ещё не занимались — пройдите задание дня, чтобы не потерять серию.</span>
+        </div>
+      </div>
+      <div class="days" id="days" aria-label="Серия по дням недели"></div>
+
+      <h3>Задание дня</h3>
+      <div class="card task" id="task">
+        <div class="q-n"><span>Станция 2-го этапа · терапия</span><span id="task-state">≈ 10 минут</span></div>
+        <div class="q-t" style="margin-bottom:4px">Сбор жалоб и анамнеза: пациентка пришла к участковому терапевту</div>
+        <div class="reward" id="task-reward"><span>+1 день серии</span><span>медаль за станцию</span><span>разбор по чек-листу ФМЗА</span></div>
+        <button class="btn" id="task-btn" type="button">Начать задание</button>
+      </div>
+
+      <h3>Готовность к аккредитации</h3>
+      <div class="card">
+        <div class="ready-top">
+          <div class="ring" id="ready-ring" style="--p:0"><div id="ready-pct">0%</div></div>
+          <div class="small muted">Доля тем, пройденных на 70% и выше, по всем трём этапам. Растёт с каждым заданием дня.</div>
+        </div>
+        <div class="stage">
+          <div class="row"><span>1. Тест · 80 вопросов</span><b id="st1">—</b></div>
+          <div class="bar"><i id="st1-bar" style="width:0"></i></div>
+        </div>
+        <div class="stage">
+          <div class="row"><span>2. Станции · 5 станций</span><b id="st2">—</b></div>
+          <div class="bar"><i id="st2-bar" style="width:0"></i></div>
+        </div>
+        <div class="stage">
+          <div class="row"><span>3. Кейс-задачи · 2 кейса</span><b id="st3">—</b></div>
+          <div class="bar"><i id="st3-bar" style="width:0"></i></div>
+        </div>
+        <p class="tiny muted" style="margin:10px 0 0">Тест и кейс-задачи в макете показаны для примера: в прототипе пока есть только станция.</p>
+      </div>
+
+      <h3>Напоминание</h3>
+      <div class="card">
+        <div class="row">
+          <div><b style="display:block">Напомнить, если не позанимались</b><span class="small muted">Один раз в день, в Telegram</span></div>
+          <div class="spacer"></div>
+          <label class="switch"><input type="checkbox" id="remind-on" checked aria-label="Включить напоминание"><span></span></label>
+        </div>
+        <div class="row" style="margin-top:10px" id="remind-row">
+          <span class="small">Во сколько:</span>
+          <input type="time" class="remind-time" id="remind-time" value="19:00" aria-label="Время напоминания">
+        </div>
+        <div class="nudge" id="nudge">
+          <div class="logo" aria-hidden="true">М</div>
+          <div><b>Медозор</b><br><span id="nudge-t">Галина Петровна ждёт вас на приёме 🩺 10 минут — и серия 4 дня ваша.</span></div>
+        </div>
+      </div>
+
+      <h3>Вместе веселее</h3>
+      <div class="card">
+        <b style="display:block">Пригласите однокурсника — месяц бесплатно обоим</b>
+        <span class="small muted">Когда друг пройдёт первую станцию, вам обоим откроется месяц подписки.</span>
+        <div class="invite-link">
+          <input id="invite-url" value="medozor.ru/i/stepan-6k" readonly aria-label="Ссылка-приглашение">
+          <button class="btn sm" id="invite-copy" type="button">Копировать</button>
+        </div>
+        <div class="friends" id="friends"><i class="on">ИП</i><i>+</i><i>+</i><span>приглашено 1 из 3</span></div>
+        <div class="btns" style="margin-top:12px"><button class="btn ghost" id="invite-share" type="button">Отправить в Telegram</button></div>
+      </div>
+    </section>
+
+    <!-- ЭКРАН 1. Инструкция -->
+    <section class="screen" id="s-brief" aria-labelledby="h-brief">
+      <p class="muted small" style="margin:0">Случай 01 · терапия</p>
+      <h1 id="h-brief">Задание станции</h1>
+      <div class="facts">
+        <div class="fact"><b id="brief-min">8,5</b><span>мин работы на станции</span></div>
+        <div class="fact"><b>1</b><span>пациент</span></div>
+        <div class="fact"><b id="brief-items">15</b><span>пунктов чек-листа</span></div>
+      </div>
+      <div class="card brief">
+        <h2>Ситуация</h2>
+        <ul>
+          <li>Вы — врач, <b>участковый терапевт</b> поликлиники. Вас ждёт пациентка, на приёме она впервые.</li>
+          <li>С чем она пришла, вы не знаете: это нужно выяснить в разговоре.</li>
+        </ul>
+      </div>
+      <div class="card brief">
+        <h2>Ваша задача</h2>
+        <ul>
+          <li>Проведите <b>только опрос</b>: соберите жалобы и анамнез. Осмотр, анализы и обследования в задачи станции не входят.</li>
+          <li>Закончите опрос фразой <b>«Перейдем к осмотру»</b>.</li>
+          <li>Затем вслух, обращаясь к эксперту, назовите <b>выявленные жалобы</b> и <b>предположительный диагноз</b> (диагностические гипотезы). В чате для этого есть переключатель «Эксперту».</li>
+          <li>Оформите результаты в <b>форме заключения</b>: ФИО и возраст пациентки, список проблем, гипотезы по приоритету.</li>
+        </ul>
+      </div>
+      <div class="note">По регламенту: полминуты на чтение задания, 8,5 минуты на станции, за минуту до конца прозвучит «У Вас осталась одна минута». Член АПК по ходу станции молчит и говорит только вводные из паспорта. Пишите пациентке обычными фразами, по одному вопросу за раз. Можно диктовать голосом — кнопка микрофона в поле ввода.</div>
+      <div class="btns">
+        <button class="btn" data-go="1">Начать приём</button>
+      </div>
+    </section>
+
+    <!-- ЭКРАН 2. Приём -->
+    <section class="screen" id="s-consult" aria-label="Приём">
+      <div class="consult">
+        <div class="timerbar">
+          <div class="timer" id="timer" aria-live="off">08:30</div>
+          <button class="iconbtn" id="pause" aria-label="Пауза" title="Пауза">
+            <svg viewBox="0 0 24 24" fill="currentColor" id="pause-ic"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          </button>
+          <div class="spacer"></div>
+          <button class="linkbtn" id="demo-fill" type="button">Демо-диалог</button>
+        </div>
+        <div class="card chatbox">
+          <div class="patient-head">
+            <div class="avatar" aria-hidden="true">ГП</div>
+            <div>
+              <div style="font-weight:650">Галина Петровна, 56 лет</div>
+              <div class="muted small">виртуальная пациентка · поликлиника</div>
+            </div>
+          </div>
+          <div class="log" id="log" aria-live="polite">
+            <div class="empty" id="empty">Пациентка вошла и села на стул.<br>Поздоровайтесь и представьтесь.</div>
+          </div>
+          <div class="chips" id="chips"></div>
+          <div class="to" role="radiogroup" aria-label="Кому реплика">
+            <button type="button" class="to-b on" data-to="pt" role="radio" aria-checked="true">Пациентке</button>
+            <button type="button" class="to-b" data-to="ex" role="radio" aria-checked="false">Эксперту</button>
+          </div>
+          <form class="composer" id="composer" autocomplete="off">
+            <div class="field">
+              <textarea id="input" rows="1" placeholder="Вопрос пациентке…" aria-label="Реплика врача"></textarea>
+              <button type="button" class="mic" id="mic" aria-label="Диктовка" title="Диктовка">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+              </button>
+            </div>
+            <button class="send" type="submit" aria-label="Отправить">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </button>
+          </form>
+        </div>
+        <div class="consult-foot">
+          <button class="btn" id="finish">Закончить приём</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ЭКРАН 3. Чек-лист -->
+    <section class="screen" id="s-check" aria-labelledby="h-check">
+      <div id="demo-note" class="demo-note" hidden>Вы не задали ни одного вопроса, поэтому чек-лист посчитан по <b>демо-диалогу</b>.</div>
+      <div class="card">
+        <div class="scorehead">
+          <div class="ring" id="ring"><div id="ring-t">0/14</div></div>
+          <div style="min-width:0">
+            <h1 id="h-check" style="font-size:19px;margin:0 0 6px">Чек-лист экзаменатора</h1>
+            <span class="badge">✓ Проверено автоматически</span>
+            <a class="passport" id="passport-link" href="#" target="_blank" rel="noopener">Чек-лист ФМЗА, паспорт станции 2023</a>
+          </div>
+        </div>
+        <p class="small" style="margin:10px 0 0" id="score-line"></p>
+        <p class="small muted" style="margin:6px 0 0">Зелёным — выполнено, под пунктом ваша реплика, которая его закрыла. Красным — не выполнено. Серым — не оценивается в текстовом режиме.</p>
+      </div>
+      <div id="checklist"></div>
+
+      <div class="card">
+        <details class="transcript">
+          <summary>Стенограмма приёма</summary>
+          <div id="transcript" style="margin-top:8px"></div>
+        </details>
+      </div>
+      <div class="btns">
+        <button class="btn" data-go="3">К заключению</button>
+      </div>
+    </section>
+
+    <!-- ЭКРАН 4. Вопросы экзаменатора -->
+    <section class="screen" id="s-viva" aria-labelledby="h-viva">
+      <h1 id="h-viva">Заключение</h1>
+      <div class="card concl" id="concl">
+        <h2>Форма заключения</h2>
+        <p class="small muted">Как бланк на станции. В чек-лист не входит, но задание требует его заполнить.</p>
+        <label>ФИО и возраст пациентки<input type="text" id="c-fio" placeholder="Фамилия Имя Отчество, возраст"></label>
+        <label>Список проблем и жалоб, главные факты для диагноза<textarea id="c-prob" placeholder="1. …"></textarea></label>
+        <label>Диагностические гипотезы по приоритету, до трёх</label>
+        <ol class="hyp">
+          <li><input type="text" aria-label="Гипотеза 1" placeholder="Наиболее вероятная"></li>
+          <li><input type="text" aria-label="Гипотеза 2"></li>
+          <li><input type="text" aria-label="Гипотеза 3"></li>
+        </ol>
+      </div>
+      <h3>Вопросы экзаменатора</h3>
+      <p class="muted small">Сверх регламента ФМЗА: на станции эксперт вопросов не задаёт, это тренировка Медозора. Ответьте своими словами — после ответа откроется эталон, совпавшие ключевые понятия подсветятся.</p>
+      <div id="viva"></div>
+      <div class="btns">
+        <button class="btn" data-go="4">Завершить станцию</button>
+      </div>
+    </section>
+
+    <!-- ЭКРАН 5. Разбор -->
+    <section class="screen" id="s-review" aria-labelledby="h-review">
+      <div class="card verdict">
+        <div class="muted small">Станция «Сбор жалоб и анамнеза»</div>
+        <div class="pct" id="r-pct">0%</div>
+        <div class="muted small" id="r-sub">чек-лист 0 из 14</div>
+        <div class="pill" id="r-pill">—</div>
+        <div class="tiny muted" style="margin-top:8px" id="r-thr">Порог прохождения станции — 70%</div>
+      </div>
+
+      <div class="habit">
+        <div class="card">
+          <div class="big" id="medal">🥈</div>
+          <b id="medal-t">Серебро</b>
+          <div class="tiny muted" id="medal-s">за станцию</div>
+        </div>
+        <div class="card">
+          <div class="big">🔥</div>
+          <b id="r-streak">3 дня</b>
+          <div class="tiny muted" id="r-streak-s">серия</div>
+        </div>
+      </div>
+
+      <h3>Итог</h3>
+      <div class="card">
+        <p id="r-summary" style="margin:0"></p>
+        <div class="dx" style="margin-top:10px"><b>Диагноз по карточке:</b> артериальная гипертензия 2 степени, впервые выявленная; высокий сердечно-сосудистый риск (курение, наследственность, избыточная масса тела).</div>
+      </div>
+
+      <h3>Красные флаги по карточке случая</h3>
+      <p class="tiny muted" style="margin-top:-4px">В чек-лист ФМЗА не входят и на процент не влияют.</p>
+      <div class="card redflag" id="r-flags"></div>
+
+      <h3>Что сделано хорошо</h3>
+      <div class="card"><ul class="list" id="r-good"></ul></div>
+
+      <h3>Что упущено и почему это важно</h3>
+      <div class="card"><ul class="list" id="r-missed"></ul></div>
+
+      <h3>Главное запомнить</h3>
+      <div class="card">
+        <ul class="list">
+          <li><span class="ic">1</span><span>Головная боль по утрам в затылке у пациентки старше 50 — повод измерить АД на обеих руках прямо на приёме.</span></li>
+          <li><span class="ic">2</span><span>Нарушения зрения, боль в груди, одышка, неврологические симптомы при высоком АД — признаки поражения органов-мишеней и осложнённого криза.</span></li>
+          <li><span class="ic">3</span><span>Оцените общий сердечно-сосудистый риск: курение, наследственность, вес, липиды, глюкоза.</span></li>
+        </ul>
+      </div>
+
+      <div class="card src small">
+        Чек-лист: <a href="#" id="passport-link2" target="_blank" rel="noopener">паспорт станции ФМЗА «Сбор жалоб и анамнеза», 2023</a>.<br>
+        Клиническая часть — по клиническим рекомендациям МЗ РФ:
+        <a href="#" id="kr-link">Артериальная гипертензия у взрослых</a>
+      </div>
+
+      <div class="card tomorrow" id="tomorrow">
+        <div class="q-n">Задание на завтра · 7 минут</div>
+        <div class="q-t" style="margin-bottom:6px">Станция «Сбор жалоб и анамнеза»: мужчина 61 года жалуется на одышку</div>
+        <p class="small muted" style="margin:0">Подобрано по вашим пропускам: в этом случае снова важно резюмировать рассказ пациента и задавать по одному вопросу за раз. Напомним завтра в 19:00.</p>
+      </div>
+
+      <div class="btns">
+        <button class="btn" id="tomorrow-btn">Задание на завтра</button>
+        <button class="btn ghost" id="again">Пройти ещё раз</button>
+        <button class="btn ghost" id="to-home" type="button">На главную</button>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+'use strict';
+
+/* ===== Настройки макета (регламент — docs/09_stations_fmza.md, разделы 3 и 5.1) ===== */
+const CONSULT_SECONDS = 8.5 * 60;  // работа на станции по паспорту: 8,5 мин (плюс 0,5 мин на брифинг и 1 мин на переход)
+const PASS_THRESHOLD = 70;         // «сдано» — 70% и больше (709н, п. 76)
+const GOLD_THRESHOLD = 90;         // медаль «золото», наше продуктовое решение
+const PASSPORT_URL = 'https://fmza.ru/upload/medialibrary/b45/pasport_sbor-zhalob-i-anamneza_pa_lechebnoe-delo_-pediatriya_11.02.2023.pdf';
+
+const STEPS = [
+  { id: 's-brief',   label: 'Задание' },
+  { id: 's-consult', label: 'Приём' },
+  { id: 's-check',   label: 'Чек-лист' },
+  { id: 's-viva',    label: 'Выводы' },
+  { id: 's-review',  label: 'Разбор' },
+];
+
+/* ===== Пациентка: ответы по ключевым словам (имитация LLM) =====
+   В продукте это будет LLM, играющая пациента по карточке случая.
+   Здесь — подходящие шаблоны по порядку, максимум три ответа на реплику.
+   Регулярки применяются к тексту в нижнем регистре, «ё» заменено на «е». */
+const PATIENT = [
+  // only: ответ целиком, без других шаблонов (резюме врача пациентка просто подтверждает)
+  { re: /правильно (ли )?я (вас )?(понял|понимаю)|если я (вас )?правильно|подытож/, a: 'Да, всё так. Скажите, доктор, это опасно?', only: true },
+  { re: /здравствуй|добрый (день|вечер)|доброе утро|приветствую/, a: 'Здравствуйте, доктор.' },
+  { re: /присажива|садитесь|располага|вещи|сумк|удобно/, a: 'Спасибо, мне удобно.' },
+  { re: /меня зовут|я (ваш )?(участков|лечащ|врач|терапевт|доктор)/, a: 'Очень приятно.' },
+  { re: /осмотр/, a: 'Хорошо.' },
+  { re: /(еще|кроме)[^?]*беспоко|что[- ]?(то|нибудь) еще|други[ехм] (жалоб|проблем|повод)|какие еще (проблемы|вопросы)/,
+    a: 'Да вроде больше ничего… Разве что устаю в последнее время, но это работа.' },
+  { re: /как (вас|к вам)|ваше (имя|фио)|ваши (фио|фамили)|фамили/, a: 'Соколова Галина Петровна.' },
+  { re: /сколько (вам )?лет|возраст|рождени/, a: 'Пятьдесят шесть, в марте исполнилось.' },
+  { re: /^(?!.*(еще|кроме)).*(беспоко|жалуе|жалоб|привело|пришли|случилось|слушаю|рассказыв|расскажите|чем (я )?(могу|можем) (вам )?помочь)/,
+    a: 'Да вот голова болит последнее время. Особенно по утрам, затылок как будто давит. Дочь заставила прийти.' },
+  { re: /мушк|зрени|глаз/, a: 'Вот вы спросили… да, бывает, мушки перед глазами мелькают, когда голова сильно болит.' },
+  { re: /тошн|рвот/, a: 'Подташнивает иногда утром, но рвоты не было.' },
+  { re: /груд|сердц|одышк|задыха/, a: 'Сердце не болит. Одышка только когда на четвёртый этаж поднимаюсь, но это возраст, наверное.' },
+  { re: /носов|кровотеч/, a: 'Нет, носом кровь не шла.' },
+  { re: /где|какая|характер|затыл|опишите/, a: 'В затылке. Давящая такая, тяжёлая, как обруч. Не стреляет, а именно давит.' },
+  { re: /давно|началось|сколько времени|впервые/, a: 'Месяца три, наверное. Раньше тоже бывало, но редко, я внимания не обращала.' },
+  { re: /максимал|самое высокое|до скольки|рабоч/, a: 'На работе медсестра как-то намерила сто восемьдесят на сто пять. А раньше у меня всегда было сто двадцать на восемьдесят.' },
+  { re: /давлени|измеря|тонометр|цифр/, a: 'Дома тонометра нет. В аптеке на прошлой неделе мерила — сто шестьдесят пять на сто. Я думала, аппарат врёт.' },
+  { re: /когда|утр|в какое время|вечер/, a: 'Чаще утром, как встану. К обеду вроде отпускает. Иногда вечером, если на работе понервничаю.' },
+  { re: /снижа|лечи|помога|таблет/, a: 'Цитрамон пью, когда голова болит. Помогает, но ненадолго.' },
+  { re: /постоянно|регулярно|лекарств|препарат|принима/, a: 'Постоянно ничего не пью. Только цитрамон, ну и витамины иногда.' },
+  { re: /аллерг|непереносим/, a: 'На пенициллин — сыпь была, ещё в молодости.' },
+  { re: /хроническ|заболеван|диабет|почк|сахар/, a: 'Да вроде ничем. Гастрит только. Сахар давно не проверяла.' },
+  { re: /родител|мам|пап|отец|отц|наследств|родствен/, a: 'У мамы было давление, в шестьдесят два у неё инсульт был. Отец тоже на таблетках от давления.' },
+  { re: /работ|професси|кем вы/, a: 'Бухгалтер. Весь день сижу, сейчас квартальный отчёт — нервно.' },
+  { re: /кури|сигарет/, a: 'Курю, да… Пачки на два дня хватает. Лет тридцать уже.' },
+  { re: /алкогол|выпива|спиртн/, a: 'По праздникам бокал вина. Не злоупотребляю.' },
+  { re: /сол[ьиее]|питани|питаетесь|спорт|физическ|(^|[^а-я])вес|ходите|двигаетесь/, a: 'Солёное люблю: огурчики, селёдку. Спортом не занимаюсь, некогда. За последние годы килограммов десять набрала.' },
+  { re: /менопауз|месячн|климакс|менструац/, a: 'Месячных уже четыре года нет.' },
+  { re: /спасибо|до свидания/, a: 'Спасибо вам, доктор.' },
+];
+/* Если ни один шаблон не подошёл: закрытый вопрос о головной боли */
+const PATIENT_SOFT = [
+  { re: /голов|болит|боль/, a: 'Да, голова болит. Особенно по утрам, затылок как будто давит.' },
+];
+const PATIENT_FALLBACK = 'Простите, я не совсем поняла. Можете спросить попроще?';
+
+/* Вводные члена АПК из паспорта (раздел 8, табл. 6). Баллы не меняют. */
+const RE_FINISH = /перейд[её]м к осмотру|перейти к осмотру|переходим к осмотру|приступ(им|аем) к осмотру/;
+const APK_CUES = [
+  { re: /(обрабатываю|обработаю|мою|помою|вымою|протираю)( себе)? руки|антисептик/, a: 'Будем считать, что руки обработаны.' },
+  { re: /^(я )?(сейчас )?(вас |вам )?(измеряю|измерю|померяю|меряю|послушаю|выслушаю|пальпирую|осматриваю|осмотрю)|давайте (я )?(вам |вас )?(измерим|измерю|померяю|послушаю|осмотрю)|(покажите|принесли)[^?]*(анализ|результат|экг)|направлю на|назначу/,
+    a: 'Осмотр/интерпретация результатов не входят в задачи станции.' },
+];
+
+/* Подсказки-реплики под чатом */
+const CHIPS = [
+  'Здравствуйте! Присаживайтесь, пожалуйста.',
+  'Что вас привело ко мне?',
+  'Как давно это началось?',
+  'Что ещё вас беспокоит?',
+  'Перейдём к осмотру.',
+];
+
+/* Демо-диалог. Закрывает 11 из 14 оцениваемых пунктов (79%, «сдано»).
+   Ошибки нарочно: п. 3 — только имя-отчество без фамилии; п. 8 — нет резюме;
+   п. 11 — серия вопросов в одной реплике. Вне чек-листа: не спросил о зрении (красный флаг). */
+const DEMO = [
+  { t: 'Здравствуйте! Присаживайтесь, пожалуйста, сумку можно положить на соседний стул.' },
+  { t: 'Меня зовут Степан Андреевич, я ваш участковый врач-терапевт.' },
+  { t: 'Назовите, пожалуйста, ваши фамилию, имя, отчество и возраст.' },
+  { t: 'Что вас привело ко мне?' },
+  { t: 'Где именно болит голова?' },
+  { t: 'Как давно это началось?' },
+  { t: 'Вы измеряли давление? Какие были цифры?' },
+  { t: 'А до скольки максимально поднималось?' },
+  { t: 'Чем вы лечите эту головную боль?' },
+  { t: 'Что ещё вас беспокоит?' },
+  { t: 'Бывает ли боль в груди или одышка?' },
+  { t: 'Какие лекарства вы принимаете постоянно?' },
+  { t: 'Есть ли у вас аллергия?' },
+  { t: 'Чем болели ваши родители?' },
+  { t: 'Вы курите?' },
+  { t: 'Перейдём к осмотру.' },
+  { t: 'Итак, мы выяснили, что пациентку беспокоят давящие головные боли в затылке по утрам в течение трёх месяцев, подъёмы АД до 180/105, одышка при подъёме на 4-й этаж.', ex: true },
+  { t: 'На основании выявленных жалоб могу предположить артериальную гипертензию 2 степени, впервые выявленную.', ex: true },
+];
+
+/* ===== Серия вопросов (п. 11) =====
+   Серия — больше одного «?» в реплике или один «?», но два вопроса через «и»:
+   «Когда началось и что принимали?». В продукте добавится LLM для скрытых вопросов. */
+const QW = '(когда|где|как|какой|какая|какое|какие|каким|какую|что|чем|сколько|почему|зачем|откуда|куда|есть ли|бывает ли|бывают ли|был ли|была ли|было ли|были ли)';
+const RE_SERIES = new RegExp('(^|[^а-я])' + QW + '[^а-я][^?]*\\s(и|а также|а)\\s+' + QW + '([^а-я][^?]*)?\\?');
+const isSeries = (text) => (text.match(/\?/g) || []).length > 1 || RE_SERIES.test(norm(text));
+
+/* ===== ЧЕК-ЛИСТ ФМЗА =====
+   Паспорт станции «Сбор жалоб и анамнеза» (Лечебное дело, Педиатрия), 2023, раздел 14.
+   Формулировки пунктов — дословно, порядок и разделы — как в оценочном листе.
+   Правильный ответ у всех пунктов «да», у п. 11 — «нет».
+   Здесь пункт проверяется регулярными выражениями по репликам студента;
+   в продукте часть пунктов (6, 8, 10, 14, 15) будет оценивать LLM-судья (docs/09, раздел 7).
+   check(c) получает { pt: реплики пациентке, ex: реплики эксперту } и возвращает
+   { ok, quote?, note?, bad? } — bad показывается красной цитатой. */
+const find = (arr, re) => arr.find((m) => re.test(norm(m)));
+const RE_FIO = /как (вас|к вам) (можно )?(зовут|обращаться)|ваше (имя|фио)|ваши (фио|фамилию)|фамили|назовите[^?.!]*(фио|имя)/;
+const RE_AGE = /сколько (вам )?лет|возраст|дат[аыу] рождения|год рождения/;
+const RE_OPEN = /что (вас )?(привело|беспокоит)|с чем (вы )?(пришли|обратились)|я вас слушаю|рассказывайте|расскажите|чем (я )?(могу|можем) (вам )?помочь|что (у вас )?случилось|на что (вы )?жалуетесь/;
+const RE_CLOSED = /голов|бол[ьиея]|давлен|тошн|кружит|беспокоит ли|у вас (есть|бывает)/;
+const RE_AM = /давно|началось|впервые|давлени|измеря|цифр|снижа|лечи|помога|как часто|когда (обычно|бывает|появля)|где (именно )?болит|характер|до скольки|максимал/;
+const RE_AV = /хроническ|заболевани|болели|операци|лекарств|препарат|аллерг|кури|алкогол|родител|наследств|работ|професси|питани|травм|менопауз|месячн/;
+const PATRONYMIC = /(ович|евич|ич|овна|евна|ична|инична)$/;
+const STOPCAPS = /^(Меня|Я|Здравствуйте|Добрый|Доброе|Позвольте|Ваш|Ваша|Врач|Доктор)$/;
+
+const CHECKLIST = [
+  { sec: 'Начало консультации. Установление контакта с пациентом', items: [
+    { n: 1, t: 'Поздоровался с пациентом',
+      check: (c) => ({ ok: !!(c.q = find(c.pt, /здравствуй|добрый (день|вечер)|доброе утро|приветствую/)), quote: c.q }) },
+    { n: 2, t: 'Позаботился о комфорте пациента (сообщил, где можно расположиться / куда положить вещи / поинтересовался удобно ли пациенту)',
+      why: 'Пациент на станции сам не сядет, пока не предложат. Хватит одной фразы: «Присаживайтесь, вещи можно положить сюда».',
+      check: (c) => ({ ok: !!(c.q = find(c.pt, /присажива|садитесь|располага|вещи (можно )?(положить|оставить|повесить)|сумк|вам удобно|удобно ли/)), quote: c.q }) },
+    { n: 3, t: 'Представился, назвав свои ФИО',
+      why: 'Нужны фамилия, имя и отчество. Частая ошибка — назвать только имя-отчество.',
+      check: (c) => {
+        const intro = find(c.pt, /меня зовут|позвольте представиться|я [—–-]|^(здравствуйте[!,.]?\s*)?я [а-яё]+ [а-яё]+/);
+        if (!intro) return { ok: false };
+        const w = intro.split(/[\s,.!?;:«»"()—–]+/).filter(Boolean);
+        const cap = (x) => !!x && /^[А-ЯЁ][а-яё]+$/.test(x) && !STOPCAPS.test(x);
+        const i = w.findIndex((x, k) => cap(x) && PATRONYMIC.test(x) && cap(w[k - 1]));
+        if (i >= 0 && (cap(w[i - 2]) || cap(w[i + 1]))) return { ok: true, quote: intro };
+        return { ok: false, bad: intro, note: i >= 0 ? 'Назвали имя и отчество, без фамилии.' : 'ФИО полностью не прозвучали.' };
+      } },
+    { n: 4, t: 'Объяснил свою роль',
+      why: 'Пациент должен понять, кто перед ним: «Я врач-терапевт».',
+      check: (c) => ({ ok: !!(c.q = find(c.pt, /(я|мы)[^.?!]{0,30}(врач|терапевт|доктор)|врач[- ]терапевт/)), quote: c.q }) },
+    { n: 5, t: 'Попросил пациента назвать свои ФИО и возраст',
+      why: 'Это идентификация пациента: нужны и ФИО, и возраст, а не что-то одно.',
+      check: (c) => {
+        const f = find(c.pt, RE_FIO), a = find(c.pt, RE_AGE);
+        if (f && a) return { ok: true, quote: f === a ? f : `${f} … ${a}` };
+        if (f || a) return { ok: false, bad: f || a, note: f ? 'Спросили ФИО, но не возраст.' : 'Спросили возраст, но не ФИО.' };
+        return { ok: false };
+      } },
+  ]},
+  { sec: 'Сбор информации. Расспрос пациента', items: [
+    { n: 6, t: 'Начал сбор информации с общего, а не конкретного вопроса: «Что привело вас?», «С чем пришли?», «Я вас слушаю», «Рассказывайте» вместо вопросов о конкретных жалобах и проблемах',
+      why: 'Открытый вопрос даёт пациенту рассказать главное своими словами. С закрытого вопроса легко уйти не туда.',
+      check: (c) => {
+        const first = c.pt.find((m) => RE_OPEN.test(norm(m)) || RE_CLOSED.test(norm(m)));
+        if (!first) return { ok: false };
+        if (RE_OPEN.test(norm(first))) return { ok: true, quote: first };
+        return { ok: false, bad: first, note: 'Первый вопрос о проблеме — конкретный, а не общий.' };
+      } },
+    { n: 7, t: 'Дослушивал ответы пациента до конца, не перебивая уточняющими вопросами, пока пациент не закончит',
+      auto: true,
+      note: 'В текстовом режиме засчитывается: реплику можно отправить, только когда ответ пациентки выведен целиком. В продукте свободный рассказ будет приходить частями, и реплика до последней части посчитается перебиванием; в голосовом режиме — по меткам времени.',
+      check: () => ({ ok: true }) },
+    { n: 8, t: 'Резюмировал сказанное пациентом (обобщал, подводил итог сказанному, чтобы показать, что услышал пациента и проверить правильность своего понимания)',
+      why: 'Резюме показывает пациенту, что его услышали, и даёт шанс поправить вас. Пример: «Правильно ли я понимаю, что…»',
+      check: (c) => ({ ok: !!(c.q = find(c.pt, /правильно (ли )?я (вас )?(понял|понимаю)|если я (вас )?правильно (понял|понимаю)|подытож|резюмир|то есть вас беспокоит|итак, (у вас|вас)/)), quote: c.q }) },
+    { n: 9, t: 'Проверил наличие других проблем или поводов для обращения, кроме уже ранее озвученной жалобы: «Что еще Вас беспокоит?» или «Какие еще проблемы Вы хотели обсудить?»',
+      why: 'Первая жалоба не всегда главная. Без этого вопроса вторая проблема может не прозвучать вовсе.',
+      check: (c) => ({ ok: !!(c.q = find(c.pt, /(еще|кроме)[^?]*беспоко|что[- ]?(то|нибудь) еще|други[ехм] (жалоб|проблем|повод)|какие еще (проблемы|вопросы)/)), quote: c.q }) },
+    { n: 10, t: 'Задавал вопросы из анамнеза жизни и анамнеза заболевания пациента',
+      why: 'Нужны обе части: и об этом заболевании (давность, цифры АД, лечение), и о жизни (болезни, лекарства, аллергии, привычки, наследственность).',
+      check: (c) => {
+        const am = c.pt.filter((m) => RE_AM.test(norm(m))), av = c.pt.filter((m) => RE_AV.test(norm(m)));
+        const note = `Вопросов об анамнезе заболевания: ${am.length}, жизни: ${av.length}.`;
+        if (am.length && av.length) return { ok: true, quote: `${am[0]} … ${av[0]}`, note };
+        return { ok: false, bad: am[0] || av[0], note: note + (am.length ? ' Не спросили об анамнезе жизни.' : av.length ? ' Не спросили об анамнезе заболевания.' : '') };
+      } },
+    { n: 11, t: 'Задавал несколько вопросов подряд (серию вопросов)', expect: 'нет',
+      why: 'На серию вопросов пациент отвечает на один, остальные теряются. Правило станции: одна реплика — один вопрос.',
+      check: (c) => {
+        const v = c.pt.filter(isSeries);
+        if (!v.length) return { ok: true, note: 'Серий не было: в каждой реплике по одному вопросу.' };
+        return { ok: false, bad: v[0], note: v.length > 1 ? `Серия вопросов в одной реплике (таких реплик: ${v.length}). Задавайте по одному.` : 'Серия вопросов в одной реплике. Задавайте по одному.' };
+      } },
+  ]},
+  { sec: 'Выстраивание отношений в процессе общения', items: [
+    { n: 12, t: 'Поддерживал зрительный контакт (регулярно, не менее половины от всего времени взаимодействия)', na: true,
+      note: 'Нужна камера. В знаменатель не входит — процент считается по 14 пунктам.' },
+  ]},
+  { sec: 'Завершение контакта с пациентом', items: [
+    { n: 13, t: 'Обозначил готовность завершить опрос и перейти к осмотру пациента',
+      why: 'По заданию опрос заканчивают фразой «Перейдем к осмотру».',
+      check: (c) => ({ ok: !!(c.q = find(c.pt.concat(c.ex), RE_FINISH)), quote: c.q }) },
+  ]},
+  { sec: 'Клинические выводы', items: [
+    { n: 14, t: 'Назвал вслух, обращаясь к эксперту, список проблем/жалоб пациента, например, «Итак, мы выяснили, что пациента беспокоят …»',
+      why: 'Выводы говорят эксперту, а не пациентке. В чате — переключатель «Эксперту».',
+      check: (c) => exCheck(c, /беспоко|жалоб|жалуется|выяснили|выявлен|проблем/) },
+    { n: 15, t: 'Назвал вслух, обращаясь к эксперту, свои клинические гипотезы (или гипотезу), например, «На основании выявленных жалоб могу предположить, что…»',
+      why: 'Гипотеза вслух — обязательная часть станции, даже если вы не уверены.',
+      check: (c) => exCheck(c, /предпола|предполож|гипотез|диагноз|подозр|вероятн|думаю/) },
+  ]},
+];
+function exCheck(c, re) {
+  const q = find(c.ex, re); if (q) return { ok: true, quote: q };
+  const wrong = find(c.pt, re);
+  return wrong ? { ok: false, bad: wrong, note: 'Сказано пациентке, а не эксперту.' } : { ok: false };
+}
+
+/* Красные флаги по карточке случая — сверх чек-листа ФМЗА, на процент не влияют. */
+const RED_FLAGS = [
+  { t: 'Спросить о зрении, тошноте, носовых кровотечениях', re: /мушк|тошн|рвот|кровотеч|в глазах|зрени/,
+    why: 'Мелькание мушек у пациентки есть, но сама она о нём не скажет. Нарушения зрения при высоком АД — признак поражения органов-мишеней.' },
+  { t: 'Спросить о боли в груди и одышке', re: /груд|сердц|одышк|задыха/,
+    why: 'Боль в груди или одышка на фоне высокого АД требуют исключить ОКС и острую сердечную недостаточность.' },
+];
+
+/* Вопросы экзаменатора (сверх регламента). Диагноз раскрывается только в эталоне после ответа. */
+const VIVA = [
+  { q: 'Ваш предварительный диагноз?',
+    ref: ['<span class="kw" data-k="гипертенз|гипертон|(^|[^а-я])аг([^а-я]|$)">Артериальная гипертензия</span> <span class="kw" data-k="2 ст|втор|ii">2 степени</span> (АД 160–179/100–109), выявлена впервые',
+          'Стадия уточняется после обследования органов-мишеней',
+          '<span class="kw" data-k="риск">Риск</span> сердечно-сосудистых осложнений высокий: курение, наследственность, избыточная масса тела, возраст'] },
+  { q: 'Какие обследования вы назначите?',
+    ref: ['Повторное измерение <span class="kw" data-k="обеих рук|двух рук|обе руки">АД на обеих руках</span>, <span class="kw" data-k="смад|дмад|суточн|домашн|дневник">СМАД или дневник АД</span>',
+          '<span class="kw" data-k="экг|электрокард">ЭКГ</span>, <span class="kw" data-k="эхо">ЭхоКГ</span>',
+          'Биохимия: <span class="kw" data-k="креатин|скф">креатинин и СКФ</span>, калий, натрий, <span class="kw" data-k="глюкоз|сахар">глюкоза</span>, <span class="kw" data-k="липид|холестер">липидный профиль</span>, мочевая кислота',
+          'Общий анализ мочи, <span class="kw" data-k="альбумин|белок в моч|микроальб">альбуминурия</span>',
+          '<span class="kw" data-k="глазн|окулист|офтальм">Осмотр глазного дна</span>'] },
+  { q: 'Какова тактика ведения?',
+    ref: ['<span class="kw" data-k="образ жизни|немедикамент|соль|курени|похуд|диет">Изменение образа жизни</span>: отказ от курения, меньше соли, снижение веса, активность',
+          'Стартовая <span class="kw" data-k="комбин|двух препарат|фиксир">комбинированная терапия</span> в одной таблетке: <span class="kw" data-k="иапф|ингибитор|сартан|бра|блокатор рецепт|периндоп|лизиноп|эналап|лозарт|валсарт">иАПФ или БРА</span> + <span class="kw" data-k="амлодип|антагонист кальц|блокатор кальц|диуретик|индапам|гипотиаз">АК или диуретик</span>',
+          '<span class="kw" data-k="целев|130|140">Целевое АД</span> &lt;130/80 мм рт. ст. при хорошей переносимости',
+          '<span class="kw" data-k="контрол|повтор|через|недел">Контрольный визит</span> через 2–4 недели'] },
+  { q: 'При каких симптомах пациентке нужна неотложная помощь?',
+    ref: ['<span class="kw" data-k="груд|сердц">Боль в груди</span>, <span class="kw" data-k="одышк|задых">одышка</span>',
+          '<span class="kw" data-k="зрени|мушк|глаз">Нарушение зрения</span>',
+          '<span class="kw" data-k="слабост|онемен|реч|невролог|инсульт|асимметр">Неврологические симптомы</span>: слабость или онемение, нарушение речи',
+          'Резкая головная боль с рвотой, АД выше 180/120 с жалобами — <span class="kw" data-k="криз">осложнённый криз</span>'] },
+];
+
+/* ===== Состояние ===== */
+const state = { step: 0, maxStep: 0, msgs: [], to: 'pt', usedDemo: false, eval: null, viva: VIVA.map(() => null) };
+let timerLeft = CONSULT_SECONDS, timerId = null, paused = false;
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const norm = (s) => s.toLowerCase().replace(/ё/g, 'е');
+function plural(n, one, few, many) {
+  const m10 = n % 10, m100 = n % 100;
+  return `${n} ${m10 === 1 && m100 !== 11 ? one : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? few : many}`;
+}
+function toast(t, ms = 2400) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), ms); }
+
+/* ===== Навигация ===== */
+function renderSteps() {
+  $('#steps').innerHTML = STEPS.map((s, i) =>
+    `<button class="step ${i === state.step ? 'active' : ''} ${i < state.maxStep && i !== state.step ? 'done' : ''}" data-step="${i}" ${i === state.step ? 'aria-current="step"' : ''}>
+       <span class="dot">${i < state.maxStep && i !== state.step ? '✓' : i + 1}</span><span class="lbl">${s.label}</span></button>`).join('');
+}
+function go(i) {
+  $('#toast').classList.remove('on');
+  $('#s-home').classList.remove('on'); $('#steps').hidden = false;
+  $('#station-tag').textContent = 'Станция: Сбор жалоб и анамнеза';
+  if (state.step === 1 && i !== 1) stopTimer();
+  if (i >= 2 && !state.eval) evaluate();
+  state.step = i; state.maxStep = Math.max(state.maxStep, i);
+  STEPS.forEach((s, k) => document.getElementById(s.id).classList.toggle('on', k === i));
+  renderSteps();
+  if (i === 1) startTimer();
+  if (i === 2) renderChecklist();
+  if (i === 3) renderViva();
+  if (i === 4) renderReview();
+  window.scrollTo(0, 0);
+}
+document.addEventListener('click', (e) => {
+  const st = e.target.closest('[data-step]'); if (st) return go(+st.dataset.step);
+  const g = e.target.closest('[data-go]'); if (g) return go(+g.dataset.go);
+});
+
+/* ===== Таймер: команды паспорта (раздел 2, табл. 1) ===== */
+const fmt = (s) => `${String(Math.floor(Math.max(s, 0) / 60)).padStart(2, '0')}:${String(Math.max(s, 0) % 60).padStart(2, '0')}`;
+function drawTimer() {
+  const t = $('#timer'); t.textContent = fmt(timerLeft);
+  t.classList.toggle('warn', timerLeft <= 60 && timerLeft > 0);
+  t.classList.toggle('over', timerLeft <= 0);
+}
+function startTimer() {
+  if (timerId || paused || timerLeft <= 0) return;
+  timerId = setInterval(() => {
+    timerLeft--; drawTimer();
+    if (timerLeft === 60) toast('«У Вас осталась одна минута»', 3500);
+    if (timerLeft <= 0) { stopTimer(); finishConsult(); toast('«Перейдите на следующую станцию»', 3500); }
+  }, 1000);
+}
+function stopTimer() { clearInterval(timerId); timerId = null; }
+$('#pause').addEventListener('click', () => {
+  paused = !paused;
+  if (paused) stopTimer(); else startTimer();
+  $('#pause').setAttribute('aria-label', paused ? 'Продолжить' : 'Пауза');
+  $('#pause-ic').innerHTML = paused ? '<path d="M8 5v14l11-7z"/>' : '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>';
+});
+
+/* ===== Чат ===== */
+const WHO_LABEL = { ex: 'Эксперту', apk: 'Член АПК' };
+function addMsg(who, text) {
+  state.msgs.push({ who, text });
+  const empty = $('#empty'); if (empty) empty.remove();
+  const d = document.createElement('div'); d.className = `msg ${who}`;
+  d.innerHTML = (WHO_LABEL[who] ? `<span class="who">${WHO_LABEL[who]}</span>` : '') + esc(text);
+  $('#log').appendChild(d); $('#log').scrollTop = $('#log').scrollHeight;
+  return d;
+}
+function patientReply(text) {
+  const n = norm(text), out = [];
+  const only = PATIENT.find((p) => p.only && p.re.test(n)); if (only) return only.a;
+  for (const p of PATIENT) { if (p.only) continue; if (p.re.test(n) && !out.includes(p.a)) out.push(p.a); if (out.length === 3) break; }
+  if (!out.length) { const s = PATIENT_SOFT.find((p) => p.re.test(n)); if (s) out.push(s.a); }
+  return out.length ? out.join(' ') : PATIENT_FALLBACK;
+}
+function apkCue(text) {
+  const n = norm(text).trim();
+  if (RE_FINISH.test(n)) return null;
+  const c = APK_CUES.find((x) => x.re.test(n));
+  return c ? c.a : null;
+}
+function setTo(to) {
+  state.to = to;
+  document.querySelectorAll('.to-b').forEach((b) => { const on = b.dataset.to === to; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); });
+  $('#input').placeholder = to === 'ex' ? 'Выводы для эксперта…' : 'Вопрос пациентке…';
+  $('#input').setAttribute('aria-label', to === 'ex' ? 'Реплика эксперту' : 'Реплика врача пациентке');
+}
+document.querySelector('.to').addEventListener('click', (e) => { const b = e.target.closest('.to-b'); if (b) setTo(b.dataset.to); });
+
+function send(text, instant, to = state.to) {
+  text = text.trim(); if (!text) return;
+  state.eval = null;
+  if (to === 'ex') { addMsg('ex', text); return; }   // член АПК молчит и не вступает в диалог
+  addMsg('me', text);
+  const cue = apkCue(text);
+  const ans = cue ? null : patientReply(text);
+  const finishing = RE_FINISH.test(norm(text));
+  const reply = () => {
+    if (cue) addMsg('apk', cue); else addMsg('pt', ans);
+    if (finishing) { setTo('ex'); if (!instant) toast('Опрос завершён. Теперь назовите эксперту жалобы и гипотезы', 3500); }
+  };
+  if (instant) return reply();
+  const typing = document.createElement('div'); typing.className = 'msg pt typing'; typing.textContent = 'печатает…';
+  $('#log').appendChild(typing); $('#log').scrollTop = $('#log').scrollHeight;
+  const len = (ans || cue).length;
+  setTimeout(() => { typing.remove(); reply(); }, 500 + Math.min(len * 8, 900));
+}
+$('#composer').addEventListener('submit', (e) => { e.preventDefault(); send($('#input').value); $('#input').value = ''; autoGrow(); });
+$('#input').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('#composer').requestSubmit(); } });
+function autoGrow() { const t = $('#input'); t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, 96) + 'px'; }
+$('#input').addEventListener('input', autoGrow);
+$('#chips').innerHTML = CHIPS.map((c) => `<button type="button" class="chip">${esc(c)}</button>`).join('');
+$('#chips').addEventListener('click', (e) => { const c = e.target.closest('.chip'); if (c) { send(c.textContent); c.hidden = true; } });
+$('#demo-fill').addEventListener('click', () => {
+  if (state.msgs.some((m) => m.who === 'me' || m.who === 'ex')) { toast('Диалог уже начат'); return; }
+  DEMO.forEach((d) => send(d.t, true, d.ex ? 'ex' : 'pt')); toast(`Демо-диалог: ${DEMO.length} реплик`);
+});
+
+/* Диктовка: Web Speech API, если браузер поддерживает */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null;
+$('#mic').addEventListener('click', () => {
+  if (!SR) { toast('Диктовка недоступна в этом браузере'); return; }
+  if (rec) { rec.stop(); return; }
+  try {
+    rec = new SR(); rec.lang = 'ru-RU'; rec.interimResults = true;
+    $('#mic').classList.add('rec');
+    rec.onresult = (e) => { $('#input').value = Array.from(e.results).map((r) => r[0].transcript).join(''); autoGrow(); };
+    rec.onend = rec.onerror = () => { $('#mic').classList.remove('rec'); rec = null; };
+    rec.start();
+  } catch (err) { $('#mic').classList.remove('rec'); rec = null; toast('Не удалось включить микрофон'); }
+});
+
+function finishConsult() { go(2); }
+$('#finish').addEventListener('click', finishConsult);
+
+/* ===== Оценка по чек-листу (код, без LLM) ===== */
+function demoTranscript() {
+  const saved = state.msgs; state.msgs = [];
+  const log = $('#log'), html = log.innerHTML;
+  DEMO.forEach((d) => send(d.t, true, d.ex ? 'ex' : 'pt'));
+  const tr = state.msgs; state.msgs = saved; log.innerHTML = html; setTo('pt');
+  return tr;
+}
+function evaluate() {
+  const own = state.msgs.some((m) => m.who === 'me' || m.who === 'ex');
+  state.usedDemo = !own;
+  const transcript = own ? state.msgs.slice() : demoTranscript();
+  const ctx = { pt: transcript.filter((m) => m.who === 'me').map((m) => m.text), ex: transcript.filter((m) => m.who === 'ex').map((m) => m.text) };
+  let done = 0, total = 0;
+  const secs = CHECKLIST.map((s) => ({ sec: s.sec, items: s.items.map((it) => {
+    if (it.na) return { ...it };
+    total++;
+    const r = it.check(ctx);
+    if (r.ok) done++;
+    return { ...it, ...r, note: r.note || it.note };
+  }) }));
+  const need = Math.ceil(total * PASS_THRESHOLD / 100);
+  // Прогноз по всем 15 пунктам, если невербальный пункт был выполнен (docs/09, раздел 7, «Как обходить…», п. 3)
+  const full = total + secs.flatMap((s) => s.items).filter((i) => i.na).length;
+  secs.forEach((s) => s.items.forEach((i) => { if (i.na) i.note += ` Если контакт был, по всем ${full} пунктам вышло бы ${done + 1} из ${full} (${Math.round((done + 1) / full * 100)}%).`; }));
+  const flags = RED_FLAGS.map((f) => ({ ...f, quote: find(ctx.pt, f.re) }));
+  state.eval = { secs, done, total, need, flags, transcript };
+}
+
+function itemHtml(i) {
+  const cls = i.na ? 'na' : i.ok ? 'ok' : 'no';
+  const mark = i.na ? '—' : i.ok ? '✓' : '✕';
+  const aria = i.na ? 'не оценивается' : i.ok ? 'выполнено' : 'не выполнено';
+  const tag = i.na ? '<span class="tag na">не оценивается в текстовом режиме</span>'
+    : i.expect === 'нет' ? '<span class="tag">правильный ответ — «нет»</span>'
+    : i.auto ? '<span class="tag">засчитано автоматически</span>' : '';
+  return `<div class="item ${cls}">
+    <div class="mark ${cls}" aria-label="${aria}">${mark}</div>
+    <div style="min-width:0"><div class="item-t"><span class="sec-n">${i.n}.</span> ${esc(i.t)}${tag}</div>
+      ${i.quote ? `<div class="quote">«${esc(i.quote)}»</div>` : ''}
+      ${i.bad ? `<div class="quote bad">«${esc(i.bad)}»</div>` : ''}
+      ${i.note ? `<div class="inote">${esc(i.note)}</div>` : ''}</div></div>`;
+}
+function renderChecklist() {
+  const ev = state.eval;
+  $('#demo-note').hidden = !state.usedDemo;
+  $('#ring').style.setProperty('--p', Math.round(ev.done / ev.total * 100));
+  $('#ring-t').textContent = `${ev.done}/${ev.total}`;
+  $('#score-line').innerHTML = `<b>${ev.done} из ${ev.total}</b> оцениваемых пунктов. Сдано при 70%: <b>минимум ${ev.need} из ${ev.total}</b>.`;
+  $('#checklist').innerHTML = ev.secs.map((s) => {
+    const sc = s.items.filter((i) => !i.na);
+    const cnt = sc.length ? `${sc.filter((i) => i.ok).length}/${sc.length}` : 'не в счёте';
+    return `<div class="card sec"><div class="sec-h"><span>${esc(s.sec)}</span><span class="cnt">${cnt}</span></div>
+      ${s.items.map(itemHtml).join('')}</div>`;
+  }).join('');
+  const tr = ev.transcript;
+  const lbl = { me: 'Врач', pt: 'Пациентка', ex: 'Врач → эксперту', apk: 'Член АПК' };
+  $('#transcript').innerHTML = tr.map((m) => `<div class="tline"><b>${lbl[m.who]}:</b> ${esc(m.text)}</div>`).join('');
+}
+
+/* ===== Заключение и вопросы экзаменатора ===== */
+function renderViva() {
+  if ($('#viva').children.length) return;
+  $('#viva').innerHTML = VIVA.map((v, k) => `<div class="card q" data-q="${k}">
+      <div class="q-n">Вопрос ${k + 1} из ${VIVA.length}</div>
+      <div class="q-t">${esc(v.q)}</div>
+      <textarea placeholder="Ваш ответ…" aria-label="${esc(v.q)}"></textarea>
+      <div class="q-actions"><button class="btn sm" data-answer="${k}">Ответить</button>
+        <button class="linkbtn" data-skip="${k}" type="button">Не знаю, показать эталон</button></div>
+      <div class="ref"><b>Эталон</b><ul>${v.ref.map((r) => `<li>${r}</li>`).join('')}</ul><div class="hitline"></div></div>
+    </div>`).join('');
+}
+$('#viva').addEventListener('click', (e) => {
+  const a = e.target.closest('[data-answer],[data-skip]'); if (!a) return;
+  const k = +(a.dataset.answer ?? a.dataset.skip);
+  const box = $(`[data-q="${k}"]`), txt = norm(box.querySelector('textarea').value);
+  if (a.dataset.answer !== undefined && !txt.trim()) { toast('Напишите ответ или нажмите «Не знаю»'); return; }
+  const kws = box.querySelectorAll('.kw'); let hit = 0;
+  kws.forEach((el) => { const ok = !!txt && new RegExp(el.dataset.k).test(txt); el.classList.toggle('hit', ok); if (ok) hit++; });
+  state.viva[k] = { hit, total: kws.length, skipped: !txt };
+  box.querySelector('.ref').classList.add('on');
+  box.querySelector('.hitline').textContent = txt ? `Совпало ключевых понятий: ${hit} из ${kws.length}` : 'Ответ не дан';
+  box.querySelector('textarea').readOnly = true;
+  box.querySelector('.q-actions').hidden = true;
+});
+
+/* ===== Разбор ===== */
+function renderReview() {
+  const ev = state.eval;
+  const pct = Math.round(ev.done / ev.total * 100);
+  const pass = ev.done >= ev.need;
+  const gold = Math.ceil(ev.total * GOLD_THRESHOLD / 100);
+  $('#r-pct').textContent = pct + '%';
+  $('#r-sub').textContent = `чек-лист: ${ev.done} из ${ev.total} оцениваемых пунктов`;
+  $('#r-thr').textContent = `Порог — 70%: минимум ${ev.need} из ${ev.total}. Пункт 12 (зрительный контакт) в текстовом режиме не оценивается.`;
+  const pill = $('#r-pill'); pill.textContent = pass ? 'Станция пройдена' : 'Станция не пройдена';
+  pill.className = 'pill ' + (pass ? 'pass' : 'fail');
+  const [m, mt] = ev.done >= gold ? ['🥇', 'Золото'] : pass ? ['🥈', 'Серебро'] : ['🎗️', 'Участие'];
+  $('#medal').textContent = m; $('#medal-t').textContent = mt;
+  $('#medal-s').textContent = ev.done >= gold ? 'за станцию'
+    : pass ? `до золота: ${plural(gold - ev.done, 'пункт', 'пункта', 'пунктов')}`
+    : `до прохождения: ${plural(ev.need - ev.done, 'пункт', 'пункта', 'пунктов')}`;
+
+  const all = ev.secs.flatMap((s) => s.items.map((i) => ({ ...i, sec: s.sec })));
+  const scored = all.filter((i) => !i.na);
+  const missed = scored.filter((i) => !i.ok);
+  const flags = ev.flags.filter((f) => !f.quote);
+  const answered = state.viva.filter((v) => v && !v.skipped).length;
+  const byN = (n) => all.find((i) => i.n === n);
+
+  $('#r-summary').textContent = (pass
+    ? `Станция пройдена: ${ev.done} из ${ev.total} оцениваемых пунктов при минимуме ${ev.need}. `
+    : `Станция не пройдена: ${ev.done} из ${ev.total}, а нужно минимум ${ev.need}. `)
+    + (missed.length ? `Не выполнены пункты ${missed.map((i) => i.n).join(', ')}. ` : 'Все оцениваемые пункты выполнены. ')
+    + (flags.length ? `Красных флагов по карточке случая не выяснено: ${flags.length} из ${ev.flags.length}. ` : 'Красные флаги случая выяснены. ')
+    + `Вопросы экзаменатора: отвечено ${answered} из ${VIVA.length}.`;
+
+  $('#r-flags').innerHTML = flags.length
+    ? `<ul class="list">${flags.map((i) => `<li><span class="ic">⚠️</span><span><b>${esc(i.t)}</b><span class="why">${esc(i.why)}</span></span></li>`).join('')}</ul>`
+    : '<p style="margin:0">✓ Оба красных флага выяснены: зрение и боль в груди.</p>';
+
+  const good = ev.secs.filter((s) => s.items.some((i) => !i.na) && s.items.every((i) => i.na || i.ok)).map((s) => `Раздел «${s.sec}» выполнен полностью`);
+  if (byN(6).ok) good.push(`Начали расспрос с общего вопроса — «${byN(6).quote}»`);
+  if (byN(9).ok) good.push(`Проверили, нет ли других проблем — «${byN(9).quote}»`);
+  if (byN(11).ok) good.push('Задавали по одному вопросу за раз');
+  $('#r-good').innerHTML = (good.length ? good : ['Вы начали приём — это уже шаг. Попробуйте демо-диалог, чтобы увидеть пример.'])
+    .map((t) => `<li><span class="ic" style="color:var(--ok)">✓</span><span>${esc(t)}</span></li>`).join('');
+
+  completeDailyTask(pct, pass, `${m} ${mt}`);
+  $('#r-streak').textContent = plural(habit.streak, 'день', 'дня', 'дней');
+  $('#r-streak-s').textContent = 'серия продлена';
+
+  $('#r-missed').innerHTML = missed.length
+    ? missed.map((i) => `<li><span class="ic" style="color:var(--bad)">✕</span><span><b>${i.n}.</b> ${esc(i.t)}${i.bad ? `<span class="why">Ваша реплика: «${esc(i.bad)}»</span>` : ''}${i.bad && i.note ? `<span class="why">${esc(i.note)}</span>` : ''}<span class="why">${esc(i.why || '')}</span></span></li>`).join('')
+    : '<li><span class="ic">✓</span><span>Все оцениваемые пункты выполнены.</span></li>';
+}
+
+document.querySelectorAll('#passport-link, #passport-link2').forEach((a) => { a.href = PASSPORT_URL; });
+$('#kr-link').addEventListener('click', (e) => { e.preventDefault(); toast('В приложении откроется рубрикатор КР Минздрава'); });
+$('#tomorrow-btn').addEventListener('click', () => {
+  $('#tomorrow').classList.add('on'); $('#tomorrow').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  toast('Задание сохранено, напомним завтра');
+});
+$('#again').addEventListener('click', () => {
+  stopTimer(); paused = false; timerLeft = CONSULT_SECONDS; drawTimer();
+  state.msgs = []; state.eval = null; state.usedDemo = false; state.viva = VIVA.map(() => null); state.maxStep = 0; setTo('pt');
+  $('#log').innerHTML = '<div class="empty" id="empty">Пациентка вошла и села на стул.<br>Поздоровайтесь и представьтесь.</div>';
+  $('#chips').querySelectorAll('.chip').forEach((c) => { c.hidden = false; });
+  $('#viva').innerHTML = ''; $('#tomorrow').classList.remove('on');
+  $('#concl').querySelectorAll('input, textarea').forEach((f) => { f.value = ''; });
+  go(0);
+});
+
+/* ===== Главная «Сегодня» ===== */
+// Всё ниже — статичная имитация: в продукте серия, готовность и напоминания хранятся на сервере.
+const EXAM_DATE = new Date('2027-06-15');  // предположение: начало летней аккредитации 2027
+const READY_DEMO = { test: 34, cases: 0 };  // пример прогресса по тесту и кейс-задачам
+const habit = { streakBefore: 3, streak: 3, doneToday: false, pct: 0, pass: false, medal: '' };
+const store = {  // localStorage только для удобства: в приватном окне может не работать
+  get(k, d) { try { const v = localStorage.getItem('medozor.' + k); return v === null ? d : v; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem('medozor.' + k, v); } catch { /* без сохранения */ } },
+};
+
+function completeDailyTask(pct, pass, medal) {
+  if (!habit.doneToday) habit.streak = habit.streakBefore + 1;
+  habit.doneToday = true; habit.pct = pct; habit.pass = habit.pass || pass; habit.medal = medal;
+}
+
+function renderHome() {
+  const left = Math.max(0, Math.ceil((EXAM_DATE - new Date()) / 864e5));
+  $('#countdown').textContent = `до аккредитации — ${plural(left, 'день', 'дня', 'дней')}`;
+
+  $('#streak-card').classList.toggle('lit', habit.doneToday);
+  $('#streak-n').textContent = `${plural(habit.streak, 'день', 'дня', 'дней')} подряд`;
+  $('#streak-s').textContent = habit.doneToday
+    ? 'Задание дня выполнено, серия продлена. Возвращайтесь завтра.'
+    : 'Сегодня ещё не занимались — пройдите задание дня, чтобы не потерять серию.';
+
+  const names = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+  const today = (new Date().getDay() + 6) % 7;  // 0 = понедельник
+  $('#days').innerHTML = names.map((n, d) => {
+    const ago = today - d;  // сколько дней назад был этот день недели
+    const on = (ago > 0 && ago <= habit.streakBefore) || (ago === 0 && habit.doneToday);
+    return `<div>${n}<i class="${on ? 'on' : ''} ${ago === 0 ? 'today' : ''}">${on ? '✓' : ago < 0 ? '' : '·'}</i></div>`;
+  }).join('');
+
+  const task = $('#task');
+  task.classList.toggle('done', habit.doneToday);
+  $('#task-state').textContent = habit.doneToday ? `✓ выполнено · ${habit.pct}%` : '≈ 10 минут';
+  $('#task-reward').innerHTML = habit.doneToday
+    ? `<span>🔥 серия ${plural(habit.streak, 'день', 'дня', 'дней')}</span><span>${esc(habit.medal)}</span><span>${habit.pass ? 'станция пройдена' : 'станция не пройдена'}</span>`
+    : '<span>+1 день серии</span><span>медаль за станцию</span><span>разбор по чек-листу ФМЗА</span>';
+  $('#task-btn').textContent = habit.doneToday ? 'Посмотреть разбор' : 'Начать задание';
+
+  const st2 = habit.pass ? 20 : 0;  // 1 из 5 станций пройдена на ≥70%
+  const total = Math.round((READY_DEMO.test + st2 + READY_DEMO.cases) / 3);
+  [['st1', READY_DEMO.test], ['st2', st2], ['st3', READY_DEMO.cases]].forEach(([id, v]) => {
+    $('#' + id).textContent = v + '%'; $('#' + id + '-bar').style.width = v + '%';
+  });
+  $('#ready-ring').style.setProperty('--p', total); $('#ready-pct').textContent = total + '%';
+
+  const on = $('#remind-on').checked, t = $('#remind-time').value || '19:00';
+  $('#remind-row').hidden = !on; $('#nudge').hidden = !on;
+  $('#nudge-t').textContent = habit.doneToday
+    ? `Серия ${plural(habit.streak, 'день', 'дня', 'дней')} 🔥 Завтра в ${t} — новая станция: мужчина 61 года с одышкой.`
+    : `Галина Петровна ждёт вас на приёме 🩺 10 минут — и серия ${plural(habit.streakBefore + 1, 'день', 'дня', 'дней')} ваша.`;
+}
+
+function showHome() {
+  stopTimer();
+  STEPS.forEach((s) => document.getElementById(s.id).classList.remove('on'));
+  $('#s-home').classList.add('on'); $('#steps').hidden = true;
+  $('#station-tag').textContent = habit.doneToday ? 'Задание дня выполнено' : 'Задание дня ждёт';
+  renderHome(); window.scrollTo(0, 0);
+}
+
+$('#home-btn').addEventListener('click', showHome);
+$('#to-home').addEventListener('click', showHome);
+$('#task-btn').addEventListener('click', () => go(habit.doneToday ? 4 : 0));
+$('#remind-on').checked = store.get('remindOn', '1') === '1';
+$('#remind-time').value = store.get('remindTime', '19:00');
+$('#remind-on').addEventListener('change', (e) => {
+  store.set('remindOn', e.target.checked ? '1' : '0'); renderHome();
+  toast(e.target.checked ? 'Напоминание включено' : 'Напоминание выключено');
+});
+$('#remind-time').addEventListener('change', (e) => {
+  store.set('remindTime', e.target.value); renderHome(); toast(`Напомним в ${e.target.value}, если не позанимаетесь`);
+});
+$('#invite-copy').addEventListener('click', async () => {
+  const url = 'https://' + $('#invite-url').value;
+  try { await navigator.clipboard.writeText(url); toast('Ссылка скопирована'); }
+  catch { $('#invite-url').select(); toast('Выделите ссылку и скопируйте вручную'); }
+});
+$('#invite-share').addEventListener('click', () => toast('В приложении откроется Telegram со ссылкой-приглашением'));
+
+/* ===== Старт ===== */
+$('#brief-min').textContent = String(CONSULT_SECONDS / 60).replace('.', ',');
+$('#brief-items').textContent = CHECKLIST.reduce((n, s) => n + s.items.length, 0);
+drawTimer();
+showHome();
+</script>
+</body>
+</html>
