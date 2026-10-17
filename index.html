@@ -39,6 +39,9 @@ button,input{font:inherit}
 .btn{padding:11px 16px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);font-weight:600;cursor:pointer}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line);padding:6px 12px;font-weight:500}
 .err{color:var(--bad);font-size:14px;min-height:1.4em;margin:0}
+.proto{color:var(--accent);font-weight:600;text-decoration:none}
+.proto:hover{text-decoration:underline;text-underline-offset:3px}
+a.btn{text-decoration:none;display:inline-block}
 
 /* приложение */
 #app{min-height:100%;display:flex;flex-direction:column}
@@ -85,6 +88,7 @@ aside li{margin:3px 0}
       <button class="btn" id="go" type="submit">Войти</button>
     </div>
     <p class="err" id="err" role="alert"></p>
+    <a class="proto" href="/prototype/">Открыть прототип тренажёра →</a>
   </form>
 </section>
 
@@ -93,6 +97,7 @@ aside li{margin:3px 0}
     <div class="brand">Мед<span>озор</span></div>
     <div style="display:flex;gap:12px;align-items:center">
       <span class="meta" id="updated"></span>
+      <a class="btn" href="/prototype/">Прототип</a>
       <button class="btn ghost" id="logout" type="button">Выйти</button>
     </div>
   </header>
