@@ -18,8 +18,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/golos-regular.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="assets/fonts/literata.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="assets/site.css">
-  <script src="assets/site.js" defer></script>
+  <link rel="stylesheet" href="assets/site.css?v=20261118-station">
+  <script src="assets/site.js?v=20261118-station" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">К содержанию</a>
@@ -75,12 +75,13 @@
           <div class="demo-tabs" role="tablist" aria-label="Этапы сценария"><button id="tab-dialogue" type="button" role="tab" aria-selected="true" aria-controls="panel-dialogue" tabindex="0">Диалог</button><button id="tab-checklist" type="button" role="tab" aria-selected="false" aria-controls="panel-checklist" tabindex="-1">Чек-лист</button><button id="tab-review" type="button" role="tab" aria-selected="false" aria-controls="panel-review" tabindex="-1">Разбор</button></div>
           <div id="panel-dialogue" class="demo-panel" role="tabpanel" aria-labelledby="tab-dialogue">
             <div class="patient-info"><div class="patient-avatar" aria-hidden="true">ГП</div><div><h3>Галина Петровна, 56 лет</h3><p>Первый приём у терапевта</p></div><span class="patient-label">Пациент</span></div>
-            <div class="sample-conversation" aria-live="polite" aria-atomic="true"><div class="sample-question"><span>Вы</span><p>Здравствуйте. Что вас беспокоит?</p></div><div class="sample-answer"><span>Галина Петровна</span><p>Голова в последнее время болит. Особенно по утрам.</p></div></div>
+            <div class="sample-conversation" aria-live="polite" aria-atomic="false"><div class="sample-question"><span>Вы</span><p>Здравствуйте. Что вас беспокоит?</p></div><div class="sample-answer"><span>Галина Петровна</span><p>Голова в последнее время болит. Особенно по утрам.</p></div></div>
             <div class="next-question"><p>Что спросить дальше?</p><div class="question-options"><button type="button" data-question="duration" aria-pressed="false">Когда это началось?</button><button type="button" data-question="detail" aria-pressed="false">Где именно болит?</button></div></div>
             <div class="demo-bottom"><span>Учебный пример · шаблонные реплики</span><button class="reset-example" type="button" hidden>Сначала ↺</button></div>
           </div>
           <div id="panel-checklist" class="demo-panel" role="tabpanel" aria-labelledby="tab-checklist" hidden><p class="panel-kicker">Действия видны в контексте разговора</p><h3 class="panel-title">Что удалось выяснить</h3><ul class="demo-checklist"><li><span class="check-icon" aria-hidden="true">✓</span><div>Уточнили основную жалобу<small>«Что вас беспокоит?»</small></div></li><li id="duration-check" class="not-asked"><span class="check-icon" aria-hidden="true">—</span><div>Уточнить начало симптомов<small>Выберите вопрос во вкладке «Диалог»</small></div></li><li class="not-asked"><span class="check-icon" aria-hidden="true">—</span><div>Собрать анамнез жизни<small>Следующая часть учебного приёма</small></div></li></ul><p class="panel-footnote">Фрагмент для знакомства с механикой. Критерии полного тренажёра предстоит проверить с врачами.</p></div>
           <div id="panel-review" class="demo-panel" role="tabpanel" aria-labelledby="tab-review" hidden><p class="panel-kicker">После приёма</p><h3 class="panel-title">Понять, что улучшить</h3><div class="review-item"><span>Получилось</span><p>Вы начали с открытого вопроса и дали пациентке описать жалобу своими словами.</p></div><div class="review-item"><span>Следующий шаг</span><p>Уточните начало и характер симптомов. Затем переходите к остальному анамнезу, сохраняя структуру разговора.</p></div><p class="panel-footnote">Это заранее написанный пример обратной связи, а не автоматическая медицинская оценка.</p></div>
+          <div class="demo-playback" hidden><div class="demo-playback-copy"><span class="demo-step">01 / Диалог</span><span class="demo-playback-note">Короткий показ станции</span></div><button class="demo-play-toggle" type="button">Смотреть показ <span aria-hidden="true">▷</span></button></div>
         </div>
       </div>
     </section>
@@ -96,7 +97,7 @@
 
     <section class="progress-section section wrap" id="progress" aria-labelledby="progress-title">
       <div class="section-label"><span class="section-number">04</span>Ход проекта</div>
-      <div class="section-heading"><h2 id="progress-title">Начинаем с малого.<br> Проверяем по существу.</h2><p>Медозор — инициативная разработка. Сейчас важнее собрать работающий учебный сценарий и&nbsp;проверить его с&nbsp;людьми.</p></div>
+      <div class="section-heading"><h2 id="progress-title">От макета — к первой<br> проверенной станции.</h2><p>Медозор — инициативная разработка. Сейчас важнее собрать работающий учебный сценарий и&nbsp;проверить его с&nbsp;людьми.</p></div>
       <div class="progress-grid"><figure class="progress-photo"><img src="assets/images/consultation.webp" srcset="assets/images/consultation-small.webp 768w, assets/images/consultation.webp 1536w" sizes="(max-width: 760px) 100vw, 45vw" alt="Учебная сцена: студентка внимательно слушает пациента за столом" width="1536" height="1024" loading="lazy"><figcaption>В центре обучения — умение услышать человека</figcaption></figure>
         <ol class="roadmap"><li><span class="roadmap-state">Подготовлено</span><h3>Первый макет и структура случая</h3><p>Кликабельная станция, схема карточки пациента, один черновик случая и&nbsp;первые интервью со студентами и&nbsp;преподавателями.</p></li><li><span class="roadmap-state current">Ближайший этап</span><h3>Пациент, с которым можно провести приём</h3><p>Подключить языковую модель, сохранять состояние диалога, проверить первые сценарии и&nbsp;критерии оценки с&nbsp;врачом.</p></li><li><span class="roadmap-state">Далее</span><h3>Поиск и проверка на источниках</h3><p>Выбрать ограниченный набор документов и&nbsp;сравнить способы поиска. Измерить ошибки и&nbsp;проверить прототип с&nbsp;пользователями.</p></li></ol>
       </div>
